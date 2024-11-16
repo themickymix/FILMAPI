@@ -77,7 +77,7 @@ function Trending() {
   return (
     <>
       <div>
-    <Carousel/>
+        <Carousel />
         <div className="mb-2 mt-10">
           <div className="flex gap-6">
             <span className="text-purple-700 font-bold text-xl">Trending</span>

@@ -100,7 +100,7 @@ function Latest() {
 // Section Component for modularity
 function Section({ title, data, error, viewAllLink, type }) {
   return (
-    <div className="mt-4">
+    <div className="mt-4 text-white">
       <div className="flex gap-6">
         <span className="text-purple-700 font-bold text-xl whitespace-nowrap">
           {title}
