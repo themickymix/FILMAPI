@@ -1,11 +1,15 @@
+import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Trending from "./pages/Trending";
-import Movie from "./pages/Movie";
-import TV from "./pages/TV";
-import ResultInfo from "./pages/ResultInfo";
-import SearchResult from "./pages/SearchResult";
-import Footer from "./components/Footer";
+
+// Lazy load the components
+const Navbar = lazy(() => import("./components/Navbar"));
+const Trending = lazy(() => import("./pages/Trending"));
+const Movie = lazy(() => import("./pages/Movie"));
+const TV = lazy(() => import("./pages/TV"));
+const ResultInfo = lazy(() => import("./pages/ResultInfo"));
+const SearchResult = lazy(() => import("./pages/SearchResult"));
+const Footer = lazy(() => import("./components/Footer"));
+
 function App() {
   return (
     <div className="bg-[#1D232A]">
@@ -14,22 +18,32 @@ function App() {
           v7_startTransition: true,
           v7_relativeSplatPath: true,
         }}>
-        <Navbar />
-        <div className="mt-5 mx-4 md:px-[15%] ">
-          <Routes>
-            {/* Default Route */}
-            <Route path="/" element={<Trending />} />
+        {/* Wrap the Navbar with Suspense to provide a fallback */}
+        <Suspense fallback={<div>Loading...</div>}>
+          <Navbar />
+        </Suspense>
 
-            {/* Trending Page Route */}
-            <Route path="/trending" element={<Trending />} />
+        <div className="mt-5 mx-4 md:px-[15%]">
+          <Suspense fallback={<div>Loading pages...</div>}>
+            <Routes>
+              {/* Default Route */}
+              <Route path="/" element={<Trending />} />
 
-            {/* Movie Detail Page Route */}
-            <Route path="/movie/" element={<Movie />} />
-            <Route path="/tv/" element={<TV />} />
-            <Route path="/result/:type/:id" element={<ResultInfo />} />
-            <Route path="/results/" element={<SearchResult />} />
-          </Routes>
-          <Footer />
+              {/* Trending Page Route */}
+              <Route path="/trending" element={<Trending />} />
+
+              {/* Movie Detail Page Route */}
+              <Route path="/movie/" element={<Movie />} />
+              <Route path="/tv/" element={<TV />} />
+              <Route path="/result/:type/:id" element={<ResultInfo />} />
+              <Route path="/results/" element={<SearchResult />} />
+            </Routes>
+          </Suspense>
+
+          {/* Wrap the Footer with Suspense to provide a fallback */}
+          <Suspense fallback={<div>Loading footer...</div>}>
+            <Footer />
+          </Suspense>
         </div>
       </Router>
     </div>
@@ -37,3 +51,4 @@ function App() {
 }
 
 export default App;
+  
