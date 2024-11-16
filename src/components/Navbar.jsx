@@ -24,7 +24,7 @@ function Navbar() {
   };
 
   return (
-    <div className="md:px-[15%] navbar bg-[#1D232A]">
+    <div className="md:px-[15%] navbar bg-base-100">
       <div className="navbar-start">
         <div className="dropdown">
           <div
