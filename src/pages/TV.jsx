@@ -47,7 +47,7 @@ function TV() {
       </span>
       <div className="flex justify-center gap-4 mt-4">
         <button
-          className="btn btn-outline"
+          className="btn btn-outline text-white"
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage <= 1}>
           Prev
@@ -56,7 +56,7 @@ function TV() {
           {currentPage} of {totalPages}
         </span>
         <button
-          className="btn btn-outline"
+          className="btn btn-outline text-white"
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage >= totalPages}>
           Next
