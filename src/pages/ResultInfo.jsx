@@ -90,7 +90,7 @@ function ResultInfo() {
       </div>
 
       <div>
-        <h1 className="text-lg text-white shadow-lg font-bold mt-5 md:mt-0">
+        <h1 className="text-lg shadow-lg font-bold mt-5 md:mt-0">
           {details.title || details.name || details.original_name}
         </h1>
         <p className="font-extralight text-sm">

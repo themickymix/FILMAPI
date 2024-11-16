@@ -71,7 +71,7 @@ function Navbar() {
         </div>
       </div>
       <div className="navbar-center">
-        <label className="input w-80 md:w-96 input-bordered flex items-center gap-2">
+        <label className="input w-60 md:w-96 input-bordered flex items-center gap-2">
           <input
             type="text"
             className="grow text-sm"
