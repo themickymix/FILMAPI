@@ -81,7 +81,7 @@ function Trending() {
         <div className="mb-2 mt-10">
           <div className="flex gap-6">
             <span className="text-purple-700 font-bold text-xl">Trending</span>
-            <div className="flex gap-3 w-40">
+            <div className="flex gap-3">
               <button
                 className={`rounded-sm px-3 font-light text-white ${
                   activeTrendingSection === "movie"
