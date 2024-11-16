@@ -118,8 +118,6 @@ function ResultInfo() {
         {/* Display person-specific info */}
         {type === "person" && (
           <div className="mt-5">
-            <h3 className="font-bold">Biography:</h3>
-            <p>{details.biography || "No biography available."}</p>
             <h3 className="font-bold mt-3">Known For:</h3>
             {/* Check if known_for exists and is an array */}
             {details.known_for && details.known_for.length > 0 ? (
