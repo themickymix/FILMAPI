@@ -42,7 +42,7 @@ function Movie() {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col text-white">
     <span className="text-purple-500 font-semibold text-xl">Latest Movies</span>
       {/* Pagination controls */}
       <div className="flex justify-center gap-4 mt-4">
