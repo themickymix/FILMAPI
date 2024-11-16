@@ -74,8 +74,8 @@ function Navbar() {
         <label className="input w-60 md:w-96 input-bordered flex items-center gap-2">
           <input
             type="text"
-            className="grow text-sm"
-            placeholder="Search for Movies, TV Shows & Person"
+            className="grow text-xs"
+            placeholder="Search Movies, TV Shows & Person"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)} // Update state on change
             onKeyDown={handleSearch} // Trigger search on Enter key

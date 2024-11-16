@@ -115,12 +115,12 @@ const Carousel = () => {
       </button>
 
       {/* Dots navigation */}
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-3">
+      <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 flex space-x-2">
         {slides.map((_, index) => (
           <button
             key={index}
             onClick={() => setActiveIndex(index)}
-            className={`w-2 h-2 rounded-full ${
+            className={`w-1 h-1 rounded-full ${
               index === activeIndex ? "bg-white" : "bg-gray-400"
             } focus:outline-none`}></button>
         ))}
