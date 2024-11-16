@@ -74,7 +74,7 @@ function ResultInfo() {
   }
 
   return (
-    <div className="md:grid grid-cols-2 md:px-5 gap-5">
+    <div className="md:grid grid-cols-2 md:px-5 gap-5 text-white">
       <div>
         <img
           className="rounded-xl shadow-2xl md:w-96 place-self-end"
