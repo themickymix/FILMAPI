@@ -8,7 +8,7 @@ function Card({ name, img, date }) {
         src={img}
         alt={name}
       />
-      <span className="text-sm text-white hover:text-purple-500 cursor-pointer mt-2 flex gap-5 z-10">
+      <span className="text-sm md:text-base text-white hover:text-purple-500 cursor-pointer mt-2 flex gap-5 z-10">
         {date}&nbsp;{name}
       </span>
     </div>

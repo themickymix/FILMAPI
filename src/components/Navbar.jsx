@@ -44,8 +44,13 @@ function Navbar() {
     }
   };
 
+  // Debounce searchQuery changes to optimize API calls
   useEffect(() => {
-    fetchSuggestions(); // Fetch suggestions when the search query changes
+    const debounceTimeout = setTimeout(() => {
+      fetchSuggestions();
+    }, 300); // 300ms debounce time
+
+    return () => clearTimeout(debounceTimeout); // Cleanup previous timeout on query change
   }, [searchQuery]);
 
   const handleSearch = (event) => {
@@ -63,7 +68,7 @@ function Navbar() {
       )}`
     );
     setSuggestions([]);
-     setSearchQuery("");
+    setSearchQuery("");
   };
 
   return (
