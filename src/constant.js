@@ -80,3 +80,15 @@ export const discovertv = () => {
       return []; // Return an empty array in case of error
     });
 };
+export const poppeople = () => {
+  return fetch(
+    "https://api.themoviedb.org/3/person/popular?language=en-US&page=1",
+    options
+  )
+    .then((res) => res.json())
+    .then((res) => res.results) // Return the results array
+    .catch((err) => {
+      console.error("Error fetching trending movies:", err);
+      return []; // Return an empty array in case of error
+    });
+};

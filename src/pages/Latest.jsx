@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { discovermovie, discovertv } from "../constant";
+import { discovermovie, discovertv, poppeople } from "../constant";
 import Card from "../components/Card";
+import Card2 from "../components/Card2";
 import { Link } from "react-router-dom"; // Import Link for navigation
 
 function Latest() {
   const [movielatest, setMovieLatest] = useState([]);
   const [tvlatest, setTvLatest] = useState([]);
+  const [people, setPeople] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState({ movie: null, tv: null });
 
   useEffect(() => {
     setLoading(true);
-
-    // Fetch latest movies
-    discovermovie()
+    const fetchMovies = discovermovie()
       .then((data) => {
         if (data && data.length > 0) {
           setMovieLatest(data);
@@ -32,8 +32,7 @@ function Latest() {
         }));
       });
 
-    // Fetch latest TV shows
-    discovertv()
+    const fetchTVShows = discovertv()
       .then((data) => {
         if (data && data.length > 0) {
           setTvLatest(data);
@@ -50,8 +49,31 @@ function Latest() {
           ...prev,
           tv: "Failed to load latest TV shows. Please try again later.",
         }));
+      });
+
+    const fetchPeople = poppeople()
+      .then((data) => {
+        if (data && data.length > 0) {
+          setPeople(data);
+        } else {
+          setError((prev) => ({
+            ...prev,
+            people: "No popular personalities available at the moment.",
+          }));
+        }
       })
-      .finally(() => setLoading(false));
+      .catch((err) => {
+        console.error("Error fetching popular personalities:", err);
+        setError((prev) => ({
+          ...prev,
+          people:
+            "Failed to load popular personalities. Please try again later.",
+        }));
+      });
+
+    Promise.all([fetchMovies, fetchTVShows, fetchPeople]).finally(() =>
+      setLoading(false)
+    );
   }, []);
 
   // Show loading spinner
@@ -76,12 +98,18 @@ function Latest() {
 
   return (
     <div>
+      <Section
+        title="Popular Personalities"
+        data={people}
+        error={error.people}
+        type="people"
+      />
       {/* Latest Movies Section */}
       <Section
         title="Latest Movies"
         data={movielatest}
         error={error.movie}
-        viewAllLink="/movie" 
+        viewAllLink="/movie"
         type="movie"
       />
 
@@ -90,33 +118,90 @@ function Latest() {
         title="Latest TV Shows"
         data={tvlatest}
         error={error.tv}
-        viewAllLink="/tv" 
-        type="tv" 
+        viewAllLink="/tv"
+        type="tv"
       />
     </div>
   );
 }
 
-// Section Component for modularity
 function Section({ title, data, error, viewAllLink, type }) {
+  const scrollRef = React.useRef(null); // Reference for the scrollable container
+
+  // Function to scroll left
+  const scrollLeft = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({
+        left: -300, // Adjust scroll distance as needed
+        behavior: "smooth",
+      });
+    }
+  };
+
+  // Function to scroll right
+  const scrollRight = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({
+        left: 300, // Adjust scroll distance as needed
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
-    <div className="mt-4 text-white">
+    <div className="mt-4 text-white relative">
+      {/* Title and View All */}
       <div className="flex gap-6">
         <span className="text-purple-700 font-bold text-xl whitespace-nowrap">
           {title}
         </span>
-        <div className="flex justify-end w-full items-baseline gap-3 hover:text-purple-500 cursor-pointer">
-          {/* Use Link directly with the correct viewAllLink */}
-          <Link to={viewAllLink} className="flex gap-2 items-center">
-            View All
-            <img className="h-3 invert" src="/arrow-right.svg" alt="arrow" />
-          </Link>
-        </div>
+        {/* Conditionally render View All link for non-people sections */}
+        {type !== "people" && (
+          <div className="flex justify-end w-full items-baseline gap-3 hover:text-purple-500 cursor-pointer">
+            <Link to={viewAllLink} className="flex gap-2 items-center">
+              View All
+              <img className="h-3 invert" src="/arrow-right.svg" alt="arrow" />
+            </Link>
+          </div>
+        )}
       </div>
 
       {/* Error or Cards */}
       {error ? (
         <div className="text-red-500">{error}</div>
+      ) : type === "people" ? (
+        <div className="relative">
+          {/* Scrollable Container */}
+          <div
+            ref={scrollRef}
+            className="flex gap-5 items-center overflow-x-auto whitespace-nowrap scrollbar-hide mt-3"
+            style={{ scrollbarWidth: "none" }}>
+            {data.map((item) => (
+              <Link to={`/result/person/${item.id}`} key={item.id}>
+                <Card2
+                  key={item.id}
+                  img={`https://image.tmdb.org/t/p/w500/${
+                    item.profile_path || "default.jpg"
+                  }`}
+                />
+              </Link>
+            ))}
+          </div>
+
+          {/* Previous Button */}
+          <button
+            onClick={scrollLeft}
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 text-white p-2 rounded-full text-5xl">
+            &#8249; {/* Unicode for a left arrow */}
+          </button>
+
+          {/* Next Button */}
+          <button
+            onClick={scrollRight}
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 text-white p-2 rounded-full text-5xl">
+            &#8250; {/* Unicode for a right arrow */}
+          </button>
+        </div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
           {data.slice(0, 6).map((item) => {
@@ -144,6 +229,5 @@ function Section({ title, data, error, viewAllLink, type }) {
     </div>
   );
 }
-
 
 export default Latest;

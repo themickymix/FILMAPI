@@ -58,21 +58,20 @@ const Carousel = () => {
 
   return (
     <div
-      className="relative w-full overflow-hidden"
+      className="relative w-full overflow-hidden rounded-xl"
       onMouseEnter={() => setIsPaused(true)} // Pause auto-slide on hover
       onMouseLeave={() => setIsPaused(false)} // Resume auto-slide on mouse leave
     >
       {/* Slides container */}
       <div
-        className="flex transition-transform duration-500 ease-in-out"
+        className="flex transition-transform duration-500 ease-in-out "
         style={{
           transform: `translateX(-${activeIndex * 100}%)`,
         }}>
         {slides.map((slide, index) => (
           <div
             key={slide.id || index}
-            className="w-full flex-shrink-0 relative bg-gray-800"
-           >
+            className="w-full flex-shrink-0 relative ">
             <button
               onClick={() => handleSlideClick(slide)} // Handle click to navigate
               className="w-full h-full focus:outline-none">
@@ -82,7 +81,7 @@ const Carousel = () => {
                 className="w-full h-full rounded-xl"
               />
             </button>
-            <div className="absolute bottom-1 left-1 text-white px-4 py-2">
+            <div className="absolute bottom-1 left-1 text-white px-4 py-2 0">
               <h2 className="text-lg font-bold">
                 {slide.title || slide.name || "Untitled"}
               </h2>
@@ -105,22 +104,22 @@ const Carousel = () => {
       {/* Navigation buttons */}
       <button
         onClick={handlePrev}
-        className="absolute top-1/2 left-4 transform -translate-y-1/2  text-white p-3 ">
+        className="absolute top-1/2 left-4 transform -translate-y-1/2  text-white p-3 text-5xl md:text-7xl">
         &#8249;
       </button>
       <button
         onClick={handleNext}
-        className="absolute top-1/2 right-4 transform -translate-y-1/2  text-white p-3">
+        className="absolute top-1/2 right-4 transform -translate-y-1/2  text-white p-3 text-5xl md:text-7xl">
         &#8250;
       </button>
 
       {/* Dots navigation */}
-      <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 flex space-x-2">
+      <div className="absolute  bottom-5 left-1/2 transform -translate-x-1/2 flex space-x-2">
         {slides.map((_, index) => (
           <button
             key={index}
             onClick={() => setActiveIndex(index)}
-            className={`w-1 h-1 rounded-full ${
+            className={`w-2 h-2 md:w-3 md:h-3 rounded-full ${
               index === activeIndex ? "bg-white" : "bg-gray-400"
             } focus:outline-none`}></button>
         ))}
