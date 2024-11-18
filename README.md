@@ -55,28 +55,23 @@ To run this project locally, follow these steps:
 
    ```
 
-2. \*_Install Dependencies_:
+2. **Install Dependencies**:
 
    ```
    npm install
 
    ```
 
-3. \*_Add TMDB API KEY_:
+3. **Add TMDB API KEY**:
    ```
    Create a .env file in the root directory and add your TMDB API key:
+   VITE_API_KEY=your_api_key
    ```
 
-VITE_API_KEY=your_api_key
 
-```
-
-
-4. **Start the Development Server:*:
+4. **Start the Development Server:**:
 ```
 
 npm run dev
-
-```
 
 ```
