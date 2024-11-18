@@ -70,8 +70,8 @@ To run this project locally, follow these steps:
 
 
 4. **Start the Development Server:**:
-```
+    ```
 
-npm run dev
+    npm run dev
 
-```
+    ```
