@@ -6,15 +6,15 @@ Welcome to the **Movie & TV Show Search App**, a responsive web application that
 
 ## Features
 
-- **Movie Search**: Find detailed information about movies, including ratings, release dates, overviews, and more.
+- **Movie Search**: Find detailed information about movies, release dates, overviews, and more.
 - **TV Show Search**: Explore TV shows with details such as seasons, episodes, cast, and crew information.
 - **Celebrity Lookup**: Search for actors, directors, and other celebrities to view their filmography and biography.
 - **Responsive Design**: Fully optimized for desktops, tablets, and mobile devices.
 - **Intuitive UI**: Clean and modern user interface designed with Tailwind CSS and DaisyUI.
 - **Live Data**: All data is fetched in real-time from the TMDB API, ensuring accuracy and up-to-date content.
-- **Interactive Experience**: Smooth navigation, search functionality, and filter options to enhance user engagement.
+- **Interactive Experience**: Smooth navigation and search functionality enhance user engagement.
 
----
+--- 
 
 ## Tech Stack
 
