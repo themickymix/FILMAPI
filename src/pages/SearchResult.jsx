@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Card from "../components/Card";
+import Card4 from "../components/Card4";
 import { options } from "../constant";
 import { Link, useLocation } from "react-router-dom";
 
@@ -55,7 +55,9 @@ function SearchResult() {
 
   return (
     <div className="flex  flex-col">
-      <span className="font-semibold text-purple-500">Search results for "{query}"</span>
+      <span className="font-semibold text-purple-500">
+        Search results for "{query}"
+      </span>
 
       <div className="flex justify-center gap-4 mt-4">
         <button
@@ -87,10 +89,11 @@ function SearchResult() {
               "-"
             )[0];
             const isPerson = item.media_type === "person";
+            const isTv = item.media_type === "tv";
 
             return (
               <Link to={`/result/${item.media_type}/${item.id}`} key={item.id}>
-                <Card
+                <Card4
                   name={
                     item.title || item.name || item.original_name || "Untitled"
                   }
@@ -103,12 +106,9 @@ function SearchResult() {
                       ? `https://image.tmdb.org/t/p/w500/${item.poster_path}`
                       : "https://placehold.co/400x600?text=No+Image+Available"
                   }
-                  additionalInfo={
-                    isPerson
-                      ? "Known For: " +
-                        (item.known_for &&
-                          item.known_for.map((movie) => movie.title).join(", "))
-                      : ""
+                  date={date}
+                  category={
+                    isTv ? "• TV Show" : isPerson ? "Artist" : "• Movie"
                   }
                 />
               </Link>

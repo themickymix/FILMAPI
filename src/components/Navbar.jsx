@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { options } from "../constant";
 
@@ -8,6 +8,8 @@ function Navbar() {
   const [suggestions, setSuggestions] = useState([]); // Store the search suggestions
   const [isLoading, setIsLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(1); // Track total pages
+  const [isSuggestionsOpen, setIsSuggestionsOpen] = useState(false); // Manage the visibility of suggestions
+  const suggestionRef = useRef(null); // Ref for suggestion list container
   const navigate = useNavigate();
 
   const handleLinkClick = () => {
@@ -21,6 +23,7 @@ function Navbar() {
   const fetchSuggestions = async () => {
     if (searchQuery.trim() === "") {
       setSuggestions([]);
+      setIsSuggestionsOpen(false); // Close suggestions if query is empty
       return; // Don't fetch if search query is empty
     }
 
@@ -37,6 +40,7 @@ function Navbar() {
 
       setSuggestions(data.results); // Set the fetched suggestions
       setTotalPages(data.total_pages); // Set total pages based on API response
+      setIsSuggestionsOpen(true); // Open suggestions list
     } catch (err) {
       console.error("Error fetching data:", err);
     } finally {
@@ -69,7 +73,26 @@ function Navbar() {
     );
     setSuggestions([]);
     setSearchQuery("");
+    setIsSuggestionsOpen(false); // Close the suggestions list after selecting a suggestion
   };
+
+  // Close suggestions list if clicked outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        suggestionRef.current &&
+        !suggestionRef.current.contains(event.target)
+      ) {
+        setIsSuggestionsOpen(false); // Close the suggestions list
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="flex flex-wrap justify-center">
@@ -123,8 +146,8 @@ function Navbar() {
           <label className="input w-60 md:w-96 input-bordered flex items-center gap-2">
             <input
               type="text"
-              className="grow text-xs"
-              placeholder="Search Movies, TV Shows & Person"
+              className="grow text-xs text-center"
+              placeholder="Movies, TV Shows & Person"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)} // Update state on change
               onKeyDown={handleSearch} // Trigger search on Enter key
@@ -167,21 +190,63 @@ function Navbar() {
         </div>
       </div>
 
-      {suggestions.length > 0 && searchQuery.trim() && (
-        <ul className="absolute z-10 mt-14 bg-base-100 rounded-box w-60 md:w-96 p-2 shadow-lg max-h-60 overflow-auto">
-          {suggestions.map((suggestion) => (
-            <Link
-              to={`/result/${suggestion.media_type || "movie"}/${
-                suggestion.id
-              }`}
-              key={suggestion.id}>
-              <li
-                className="p-2 text-sm hover:bg-base-200 cursor-pointer"
-                onClick={() => handleSuggestionClick(suggestion)}>
-                {suggestion.name || suggestion.title || "Untitled"}
-              </li>
-            </Link>
-          ))}
+      {isSuggestionsOpen && suggestions.length > 0 && searchQuery.trim() && (
+        <ul
+          ref={suggestionRef} // Attach ref to suggestion list container
+          className="absolute z-10 mt-16 bg-base-100 w-60 md:w-96 shadow-2xl rounded-md max-h-60 overflow-auto"
+          style={{ scrollbarWidth: "none" }}>
+          {suggestions.map((suggestion) => {
+            // Extract the release year from the date
+            const date = (
+              suggestion.release_date ||
+              suggestion.first_air_date ||
+              ""
+            ).split("-")[0];
+            const mediaType = suggestion.media_type || "";
+            const formattedMediaType =
+              mediaType === "tv"
+                ? "• TV Show"
+                : "" +
+                  mediaType.charAt(0).toUpperCase() +
+                  mediaType.slice(1).toLowerCase();
+
+            return (
+              <Link
+                to={`/result/${suggestion.media_type || "movie"}/${
+                  suggestion.id
+                }`}
+                key={suggestion.id}>
+                <li
+                  className="p-2 text-sm hover:bg-base-200 cursor-pointer "
+                  onClick={() => handleSuggestionClick(suggestion)}>
+                  <div className="flex gap-5">
+                    {/* Poster Image */}
+                    <img
+                      className="w-12 rounded-md bg-white"
+                      src={
+                        suggestion.poster_path || suggestion.profile_path
+                          ? `https://image.tmdb.org/t/p/w500/${
+                              suggestion.poster_path || suggestion.profile_path
+                            }`
+                          : "/noimg.svg"
+                      }
+                    />
+
+                    {/* Suggestion Details */}
+                    <div>
+                      <span className="flex flex-col">
+                        {suggestion.name || suggestion.title || "Untitled"}
+                      </span>
+                      <span className="flex gap-2">
+                        {date} &nbsp;
+                        {formattedMediaType}
+                      </span>
+                    </div>
+                  </div>
+                </li>
+              </Link>
+            );
+          })}
         </ul>
       )}
     </div>

@@ -220,6 +220,7 @@ function Section({ title, data, error, viewAllLink, type }) {
                   img={`https://image.tmdb.org/t/p/w500/${
                     item.poster_path || "default.jpg"
                   }`}
+                  category={item.media_type}
                 />
               </Link>
             );
