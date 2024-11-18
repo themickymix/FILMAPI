@@ -160,7 +160,7 @@ function ResultInfo() {
       </div>
 
       <div>
-        <h1 className="text-lg shadow-lg font-bold mt-5 md:mt-0">
+        <h1 className="text-lg font-bold mt-5 md:mt-0">
           {title || name || original_name}
         </h1>
         <p className="font-extralight text-sm">{overview || biography}</p>
@@ -177,7 +177,12 @@ function ResultInfo() {
             </p>
           </div>
         )}
-
+        {type === "movie" && (
+          <span className="font-bold flex gap-2">
+            Release Date:
+            <p className="font-light">{release_date}</p>
+          </span>
+        )}
         {type === "tv" && (
           <div className="">
             <span className="font-bold flex gap-2">
@@ -262,10 +267,6 @@ function ResultInfo() {
         {/* Cast Section */}
         {type !== "person" && cast.length > 0 && (
           <div>
-            <span className="font-bold flex gap-2">
-              Release Date:
-              <p className="font-light">{release_date}</p>
-            </span>
             <h2 className="font-bold mb-2">Top Cast:</h2>
             <div className="grid grid-cols-2 gap-2">
               {cast.slice(0, 6).map((actor) => (
