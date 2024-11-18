@@ -114,7 +114,7 @@ const Carousel = () => {
       </button>
 
       {/* Dots navigation */}
-      <div className="absolute  bottom-5 left-1/2 transform -translate-x-1/2 flex space-x-2">
+      <div className="absolute bottom-2  md:bottom-5 left-1/2 transform -translate-x-1/2 flex space-x-2">
         {slides.map((_, index) => (
           <button
             key={index}

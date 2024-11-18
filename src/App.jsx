@@ -23,7 +23,7 @@ function App() {
           <Navbar />
         </Suspense>
 
-        <div className="mt-5 mx-4 md:px-[15%]">
+        <div className="mt-5 mx-4 lg:px-[15%]">
           <Suspense fallback={<div>Loading pages...</div>}>
             <Routes>
               {/* Default Route */}
