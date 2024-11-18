@@ -189,7 +189,7 @@ function ResultInfo() {
             {seasons.length > 0 && (
               <div className="mt-4">
                 <select
-                  className="select select-bordered w-full"
+                  className="select select-bordered bg-[#1D232A] w-full"
                   onChange={(e) => fetchEpisodes(e.target.value)}
                   value={selectedSeason || seasons[0]?.season_number || ""}>
                   {seasons.map((season) => (
