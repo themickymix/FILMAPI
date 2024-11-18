@@ -78,7 +78,7 @@ const Carousel = () => {
               <img
                 src={`https://image.tmdb.org/t/p/original${slide.backdrop_path}`}
                 alt={slide.title || slide.name || "Untitled"}
-                className="w-full h-full rounded-xl"
+                className="w-full h-full rounded-xl bg-gradient-to-br from-gray-500 to-gray-800 filter brightness-75"
               />
             </button>
             <div className="absolute bottom-1 left-1 text-white px-4 py-2 0">
