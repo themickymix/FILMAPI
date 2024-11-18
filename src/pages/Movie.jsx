@@ -75,14 +75,14 @@ function Movie() {
               "-"
             )[0];
             return (
-                <Link to={`/result/movie/${item.id}`} key={item.id}>
-              <Card
-                date={date}
-                name={item.title || item.name || "Untitled"}
-                img={`https://image.tmdb.org/t/p/w500/${
-                  item.poster_path || "default.jpg"
-                }`}
-              />
+              <Link to={`/result/movie/${item.id}`} key={item.id}>
+                <Card
+                  date={date + " •"}
+                  name={item.title || item.name || "Untitled"}
+                  img={`https://image.tmdb.org/t/p/w500/${
+                    item.poster_path || "default.jpg"
+                  }`}
+                />
               </Link>
             );
           })

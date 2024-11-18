@@ -78,7 +78,7 @@ function TV() {
               <Link to={`/result/tv/${item.id}`} key={item.id}>
                 <Card
                   key={item.id}
-                  date={date}
+                  date={date + " •"}
                   name={item.title || item.name || "Untitled"}
                   img={`https://image.tmdb.org/t/p/w500/${
                     item.poster_path || "default.jpg"
