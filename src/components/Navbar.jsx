@@ -134,7 +134,7 @@ function Navbar() {
                 </li>
                 <li>
                   <Link to="/tv" onClick={handleLinkClick}>
-                    TV Series
+                    TV Show
                   </Link>
                 </li>
               </ul>

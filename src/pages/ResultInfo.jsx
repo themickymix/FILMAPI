@@ -271,7 +271,7 @@ function ResultInfo() {
             <h2 className="font-bold mb-2">Top Cast:</h2>
             <div className="grid grid-cols-2 gap-2">
               {cast.slice(0, 6).map((actor) => (
-                <Link to={`/result/person/${actor.id}`}>
+                <Link key={actor.id} to={`/result/person/${actor.id}`}>
                   <div key={`cast-${actor.id}`} className="flex gap-2">
                     <img
                       src={
