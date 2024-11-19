@@ -174,7 +174,7 @@ function Section({ title, data, error, viewAllLink, type }) {
           {/* Scrollable Container */}
           <div
             ref={scrollRef}
-            className="flex gap-5 items-center overflow-x-auto whitespace-nowrap scrollbar-hide mt-3"
+            className="flex mx-8 rounded-full gap-5 items-center overflow-x-auto whitespace-nowrap scrollbar-hide mt-3"
             style={{ scrollbarWidth: "none" }}>
             {data.map((item) => (
               <Link to={`/result/person/${item.id}`} key={item.id}>

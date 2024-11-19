@@ -184,83 +184,84 @@ function ResultInfo() {
           </span>
         )}
         {type === "tv" && (
-          <div className="">
+          <div>
             <span className="font-bold flex gap-2">
               First Air Date:
               <p className="font-light">{first_air_date}</p>
             </span>
+            <div className="  shadow-2xl p-2 rounded-xl mb-3">
+              {/* TV Seasons Dropdown */}
+              {seasons.length > 0 && (
+                <div className="mt-4">
+                  <select
+                    className="select select-bordered bg-[#1D232A] w-full"
+                    onChange={(e) => fetchEpisodes(e.target.value)}
+                    value={selectedSeason || seasons[0]?.season_number || ""}>
+                    {seasons.map((season) => (
+                      <option key={season.id} value={season.season_number}>
+                        {season.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
 
-            {/* TV Seasons Dropdown */}
-            {seasons.length > 0 && (
-              <div className="mt-4">
-                <select
-                  className="select select-bordered bg-[#1D232A] w-full"
-                  onChange={(e) => fetchEpisodes(e.target.value)}
-                  value={selectedSeason || seasons[0]?.season_number || ""}>
-                  {seasons.map((season) => (
-                    <option key={season.id} value={season.season_number}>
-                      {season.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
+              {/* Episodes List */}
+              {episodes.length > 0 && (
+                <ul
+                  className="max-h-32 overflow-auto mt-3 p-2 rounded-md"
+                  style={{ scrollbarWidth: "none" }}>
+                  {episodes.map((episode) => {
+                    const currentDate = new Date();
+                    const episodeAirDate = new Date(episode.air_date);
 
-            {/* Episodes List */}
-            {episodes.length > 0 && (
-              <ul
-                className="max-h-32 overflow-auto mt-3 p-2  shadow-2xl rounded-md"
-                style={{ scrollbarWidth: "none" }}>
-                {episodes.map((episode) => {
-                  const currentDate = new Date();
-                  const episodeAirDate = new Date(episode.air_date);
+                    return (
+                      <li
+                        key={episode.id}
+                        className="p-2 flex place-items-center gap-3">
+                        <img
+                          className="w-24 rounded-md"
+                          src={
+                            // Check if the episode's air date is in the future
+                            episodeAirDate > currentDate
+                              ? "https://placehold.co/600x400?text=Coming+Soon"
+                              : episode.still_path
+                              ? `https://image.tmdb.org/t/p/w500/${episode.still_path}`
+                              : "https://placehold.co/600x400?text=No+Image+Available"
+                          }
+                          alt={
+                            episodeAirDate > currentDate
+                              ? "Coming Soon"
+                              : "Episode still"
+                          }
+                        />
 
-                  return (
-                    <li
-                      key={episode.id}
-                      className="p-2 flex place-items-center gap-3">
-                      <img
-                        className="w-24 rounded-md"
-                        src={
-                          // Check if the episode's air date is in the future
-                          episodeAirDate > currentDate
-                            ? "https://placehold.co/600x400?text=Coming+Soon"
-                            : episode.still_path
-                            ? `https://image.tmdb.org/t/p/w500/${episode.still_path}`
-                            : "https://placehold.co/600x400?text=No+Image+Available"
-                        }
-                        alt={
-                          episodeAirDate > currentDate
-                            ? "Coming Soon"
-                            : "Episode still"
-                        }
-                      />
-
-                      <div className="flex flex-col ">
-                        <span className="font-bold">
-                          {episode.episode_number}. {episode.name}
-                        </span>
-                        <span className="flex justify-items-center items-center gap-1 text-sm">
-                          <span className="text-sm">
-                            {new Date(episode.air_date).toLocaleDateString(
-                              "en-US",
-                              {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                              }
-                            )}
+                        <div className="flex flex-col ">
+                          <span className="font-bold">
+                            {episode.episode_number}. {episode.name}
                           </span>
-                          <span>
-                            {episode.runtime ? `• ${episode.runtime}m` : null}
+                          <span className="flex justify-items-center items-center gap-1 text-sm">
+                            <span className="text-sm">
+                              {new Date(episode.air_date).toLocaleDateString(
+                                "en-US",
+                                {
+                                  year: "numeric",
+                                  month: "long",
+                                  day: "numeric",
+                                }
+                              )}
+                            </span>
+                            <span>
+                              {episode.runtime ? `• ${episode.runtime}m` : null}
+                            </span>
                           </span>
-                        </span>
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </div>
           </div>
         )}
 
@@ -304,7 +305,7 @@ function ResultInfo() {
                 <span className="text-purple-700 font-semibold">Movies</span>
                 <div className="relative">
                   <div
-                    className="flex gap-5 items-center overflow-x-auto whitespace-nowrap scrollbar-hide mt-3"
+                    className="flex gap-5 mx-5 rounded-full items-center overflow-x-auto whitespace-nowrap scrollbar-hide mt-3 scroll-smooth"
                     style={{ scrollbarWidth: "none" }}
                     ref={movieRef}>
                     {knownFor
@@ -314,7 +315,11 @@ function ResultInfo() {
                           to={`/result/movie/${movie.id}`}
                           key={`knownFor-movie-${movie.id}-${index}`}>
                           <Card3
-                            img={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                            img={
+                              movie.poster_path
+                                ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+                                : "/noimg.svg"
+                            }
                           />
                         </Link>
                       ))}
@@ -322,12 +327,12 @@ function ResultInfo() {
                   {/* Scroll buttons */}
                   <button
                     onClick={() => scrollLeft(movieRef)}
-                    className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full">
+                    className="absolute top-1/2 left-0 transform -translate-y-1/2  text-5xl text-white  rounded-full">
                     &#8249;
                   </button>
                   <button
                     onClick={() => scrollRight(movieRef)}
-                    className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full">
+                    className="absolute top-1/2 right-0 transform -translate-y-1/2 text-5xl text-white rounded-full">
                     &#8250;
                   </button>
                 </div>
@@ -340,7 +345,7 @@ function ResultInfo() {
                 <span className="text-purple-700 font-semibold">TV Shows</span>
                 <div className="relative ">
                   <div
-                    className="flex gap-5 items-center overflow-x-auto whitespace-nowrap scrollbar-hide mt-3"
+                    className="flex gap-5 mx-5 rounded-full items-center overflow-x-auto whitespace-nowrap scrollbar-hide mt-3 scroll-smooth"
                     style={{ scrollbarWidth: "none" }}
                     ref={tvRef}>
                     {knownFor
@@ -350,7 +355,11 @@ function ResultInfo() {
                           to={`/result/tv/${tv.id}`}
                           key={`knownFor-tv-${tv.id}-${index}`}>
                           <Card3
-                            img={`https://image.tmdb.org/t/p/w500/${tv.poster_path}`}
+                            img={
+                              tv.poster_path
+                                ? `https://image.tmdb.org/t/p/w500/${tv.poster_path}`
+                                : "/noimg.svg"
+                            }
                           />
                         </Link>
                       ))}
@@ -358,12 +367,12 @@ function ResultInfo() {
                   {/* Scroll buttons */}
                   <button
                     onClick={() => scrollLeft(tvRef)}
-                    className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full">
+                    className="absolute top-1/2 left-0 transform -translate-y-1/2 text-5xl text-white  rounded-full">
                     &#8249;
                   </button>
                   <button
                     onClick={() => scrollRight(tvRef)}
-                    className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full">
+                    className="absolute top-1/2 right-0 transform -translate-y-1/2 text-5xl  text-white  rounded-full">
                     &#8250;
                   </button>
                 </div>

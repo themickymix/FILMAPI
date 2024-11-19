@@ -147,7 +147,7 @@ function Navbar() {
             <input
               type="text"
               className="grow text-xs text-center"
-              placeholder="Movies, TV Shows & Person"
+              placeholder="Movies, TV Shows & Artist"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)} // Update state on change
               onKeyDown={handleSearch} // Trigger search on Enter key
@@ -203,12 +203,17 @@ function Navbar() {
               ""
             ).split("-")[0];
             const mediaType = suggestion.media_type || "";
-            const formattedMediaType =
-              mediaType === "tv"
-                ? "• TV Show"
-                : "" +
-                  mediaType.charAt(0).toUpperCase() +
-                  mediaType.slice(1).toLowerCase();
+      const formattedMediaType =
+        mediaType === "tv"
+          ? " • TV Show"
+          : mediaType === "person"
+          ? "Artist"
+          : mediaType === "movie"
+          ? " • Movie"
+          : mediaType
+          ? mediaType.charAt(0).toUpperCase() + mediaType.slice(1).toLowerCase()
+          : "Unknown";
+
 
             return (
               <Link
@@ -238,7 +243,7 @@ function Navbar() {
                         {suggestion.name || suggestion.title || "Untitled"}
                       </span>
                       <span className="flex gap-2">
-                        {date} &nbsp;
+                        {date}
                         {formattedMediaType}
                       </span>
                     </div>
