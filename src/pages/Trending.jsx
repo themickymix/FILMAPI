@@ -62,13 +62,7 @@ function Trending() {
       );
     });
 
-  if (loading) {
-    return (
-      <p className="text-center text-xl text-purple-700">
-        <span className="loading loading-dots loading-lg"></span>
-      </p>
-    );
-  }
+
 
   if (error) {
     return <p className="text-center text-red-500">{error}</p>;

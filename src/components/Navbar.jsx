@@ -203,17 +203,17 @@ function Navbar() {
               ""
             ).split("-")[0];
             const mediaType = suggestion.media_type || "";
-      const formattedMediaType =
-        mediaType === "tv"
-          ? " • TV Show"
-          : mediaType === "person"
-          ? "Artist"
-          : mediaType === "movie"
-          ? " • Movie"
-          : mediaType
-          ? mediaType.charAt(0).toUpperCase() + mediaType.slice(1).toLowerCase()
-          : "Unknown";
-
+            const formattedMediaType =
+              mediaType === "tv"
+                ? " • TV Show"
+                : mediaType === "person"
+                ? "Artist"
+                : mediaType === "movie"
+                ? " • Movie"
+                : mediaType
+                ? mediaType.charAt(0).toUpperCase() +
+                  mediaType.slice(1).toLowerCase()
+                : "Unknown";
 
             return (
               <Link
